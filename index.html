@@ -1,0 +1,3083 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IntegraSafe - Iniciar sesi&oacute;n</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --green: #17df1c;
+      --green-dark: #0db413;
+      --green-deeper: #0a9e10;
+      --navy: #080958;
+      --navy-2: #0d2372;
+      --blue: #1c55c5;
+      --blue-soft: #7ec6ff;
+      --white: #ffffff;
+      --text-main: #22324c;
+      --text-muted: #7081a0;
+      --text-label: #4a5974;
+      --border: #d8e1ec;
+      --border-focus: rgba(23, 223, 28, 0.55);
+      --shadow-focus: rgba(23, 223, 28, 0.12);
+      --bg-input: #f5f8fc;
+      --font: "Open Sans", Arial, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 14% 74%, rgba(126, 198, 255, 0.14) 0%, rgba(126, 198, 255, 0.05) 14%, transparent 28%),
+        radial-gradient(circle at 86% 82%, rgba(23, 223, 28, 0.12) 0%, rgba(23, 223, 28, 0.04) 16%, transparent 30%),
+        radial-gradient(circle at 86% 10%, rgba(28, 85, 197, 0.08) 0%, rgba(28, 85, 197, 0.03) 12%, transparent 24%),
+        var(--white);
+    }
+
+    .bg-blob {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.95;
+      transition: opacity 0.3s ease;
+    }
+
+    .bg-blob--left {
+      left: -220px;
+      top: 48%;
+      width: 760px;
+      height: 360px;
+      background:
+        radial-gradient(115% 145% at 30% 55%, transparent 40%, rgba(126, 198, 255, 0.18) 45%, rgba(126, 198, 255, 0.08) 51%, transparent 62%),
+        radial-gradient(100% 120% at 36% 53%, transparent 49%, rgba(23, 223, 28, 0.10) 54%, transparent 64%);
+      filter: blur(12px);
+      transform: rotate(-14deg);
+    }
+
+    .bg-blob--right {
+      right: -180px;
+      bottom: 18px;
+      width: 1120px;
+      height: 560px;
+      background:
+        radial-gradient(92% 110% at 68% 73%, transparent 49%, rgba(126, 198, 255, 0.18) 55%, rgba(126, 198, 255, 0.08) 61%, transparent 69%),
+        radial-gradient(88% 104% at 72% 76%, transparent 42%, rgba(23, 223, 28, 0.14) 50%, rgba(23, 223, 28, 0.06) 56%, transparent 64%),
+        radial-gradient(86% 96% at 77% 67%, transparent 58%, rgba(28, 85, 197, 0.10) 63%, transparent 69%);
+      filter: blur(16px);
+      transform: rotate(-10deg);
+    }
+
+    .bg-blob--top {
+      right: -120px;
+      top: -120px;
+      width: 520px;
+      height: 270px;
+      background:
+        radial-gradient(ellipse at 56% 42%, rgba(126, 198, 255, 0.15) 0%, transparent 62%),
+        radial-gradient(ellipse at 68% 48%, rgba(23, 223, 28, 0.07) 0%, transparent 66%);
+      filter: blur(42px);
+    }
+
+    body.course-dark-active .bg-blob {
+      opacity: 0;
+    }
+
+    .screen-hidden {
+      display: none !important;
+    }
+
+    #login-screen {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 44px 20px 72px;
+    }
+
+    #login-screen .page {
+      min-height: 0;
+      padding: 24px 20px 16px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 464px;
+      background: rgba(255, 255, 255, 0.97);
+      border: 1px solid rgba(219, 228, 238, 0.92);
+      border-radius: 22px;
+      box-shadow:
+        0 10px 24px rgba(15, 35, 82, 0.08),
+        0 28px 58px rgba(15, 35, 82, 0.12),
+        0 0 54px rgba(23, 223, 28, 0.06);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+
+    .card-body {
+      padding: 21px 38px 14px;
+    }
+
+    .brand {
+      text-align: center;
+    }
+
+    .brand-logo {
+      display: block;
+      width: min(236px, 70%);
+      height: auto;
+      margin: 0 auto;
+      object-fit: contain;
+    }
+
+    .card-title {
+      text-align: center;
+      font-size: 1.34rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      margin: 7px 0 12px;
+    }
+
+    .field {
+      margin-bottom: 10px;
+    }
+
+    .field__label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-label);
+    }
+
+    .field__wrap {
+      position: relative;
+    }
+
+    .field__input {
+      width: 100%;
+      height: 46px;
+      border-radius: 11px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      padding: 0 14px;
+      font: 400 0.92rem var(--font);
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    }
+
+    .field__input:focus,
+    .field__input--active {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 4px var(--shadow-focus);
+      background: var(--white);
+    }
+
+    .field__input--muted {
+      background: var(--bg-input);
+      padding-right: 46px;
+    }
+
+    .eye-btn {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border: 0;
+      background: transparent;
+      color: #8898b8;
+      padding: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+
+    .eye-btn:hover {
+      color: var(--navy-2);
+    }
+
+    .forgot {
+      text-align: right;
+      margin-top: 2px;
+      margin-bottom: 12px;
+    }
+
+    .forgot__link {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--blue);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .forgot__link:hover {
+      color: var(--navy);
+      text-decoration: underline;
+    }
+
+    .btn-enter {
+      width: 100%;
+      height: 44px;
+      border: 0;
+      border-radius: 11px;
+      background: linear-gradient(92deg, var(--green-dark) 0%, var(--green) 100%);
+      color: var(--white);
+      font: 700 0.96rem var(--font);
+      letter-spacing: 0.015em;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(13, 180, 19, 0.28);
+      transition: transform 0.17s ease, box-shadow 0.17s ease, filter 0.17s ease;
+    }
+
+    .btn-enter:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(13, 180, 19, 0.34);
+      filter: brightness(1.03);
+    }
+
+    .btn-enter:active {
+      transform: translateY(0);
+      box-shadow: 0 5px 14px rgba(13, 180, 19, 0.22);
+    }
+
+    .card-meta {
+      border-top: 1px solid #edf1f7;
+      padding: 10px 18px 11px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .sheeq {
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .sheeq .c1 { color: #f7941d; }
+    .sheeq .c2 { color: #2356a5; }
+    .sheeq .c3 { color: #dc433b; }
+    .sheeq .c4 { color: #05a54e; }
+    .sheeq .c5 { color: #f5b821; }
+
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid #edf1f7;
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px 24px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    #login-screen .site-footer {
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #445988;
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--blue);
+      text-decoration: underline;
+    }
+
+    .courses-screen {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .courses-screen.courses-light-mode {
+      background: transparent;
+      color: inherit;
+    }
+
+    .courses-screen.courses-dark-mode {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .courses-screen.courses-dark-mode .container h1 {
+      color: #ffffff;
+    }
+
+    .courses-screen.courses-dark-mode .subtitle {
+      color: #d8dee9;
+    }
+
+    .course-detail-main {
+      width: min(1320px, calc(100% - 56px));
+      margin: 24px auto 0;
+      padding: 0 0 56px;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    .detail-top-boxes {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .detail-info-box,
+    .detail-sidebar,
+    .detail-quiz-box {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1.5px solid rgba(23, 223, 28, 0.85);
+      border-radius: 22px;
+      box-shadow: 0 18px 40px rgba(8, 9, 88, 0.08);
+    }
+
+    .detail-info-box {
+      padding: 18px 20px;
+    }
+
+    .detail-info-box h2 {
+      margin: 0 0 8px;
+      font-size: 1.06rem;
+      color: var(--navy);
+    }
+
+    .detail-info-box p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .detail-ghost-btn {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1.5px solid rgba(23, 223, 28, 0.5);
+      color: var(--text-muted);
+      border-radius: 14px;
+      padding: 11px 18px;
+      text-decoration: none;
+      font-size: 0.94rem;
+      font-weight: 600;
+    }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .detail-sidebar {
+      padding: 12px;
+    }
+
+    .detail-module-group {
+      border: 1.5px solid rgba(23, 223, 28, 0.72);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .detail-module-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .detail-module-header {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .detail-module-header--plain {
+      border-bottom: 0;
+    }
+
+    .detail-module-toggle {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      padding: 14px 16px 12px;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+    }
+
+    .detail-module-name-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .detail-module-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .detail-module-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 28px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(23, 223, 28, 0.16);
+      border: 1px solid rgba(23, 223, 28, 0.35);
+      color: var(--green-deeper);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .detail-module-meta-line {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    .detail-module-lessons {
+      display: none;
+      border-top: 1px solid var(--border);
+    }
+
+    .detail-module-group.is-open .detail-module-lessons {
+      display: block;
+    }
+
+    .detail-module-header h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      color: var(--navy);
+    }
+
+    .detail-module-header p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    .detail-lesson {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 16px;
+      border-left: 6px solid transparent;
+      text-decoration: none;
+      color: var(--navy);
+    }
+
+    .detail-lesson.active {
+      background: #f4f7ff;
+      border-left-color: var(--green);
+    }
+
+    .detail-lesson + .detail-lesson {
+      border-top: 1px solid var(--border);
+    }
+
+    .detail-lesson.locked {
+      opacity: 0.58;
+    }
+
+    .detail-lesson--completed {
+      opacity: 1;
+    }
+
+    .detail-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      flex: 0 0 28px;
+      margin-top: 2px;
+      font-size: 0.82rem;
+    }
+
+    .detail-icon--success {
+      background: rgba(23, 223, 28, 0.14);
+      border-color: rgba(23, 223, 28, 0.42);
+      color: var(--green-deeper);
+      font-weight: 800;
+    }
+
+    .detail-lesson-title {
+      font-size: 0.94rem;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+
+    .detail-lesson-meta {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .detail-video-column {
+      display: grid;
+      grid-template-rows: auto auto;
+      gap: 18px;
+    }
+
+    .detail-panel-host {
+      min-width: 0;
+    }
+
+    .detail-panel-view {
+      display: none !important;
+    }
+
+    .detail-panel-view.is-active {
+      display: grid !important;
+    }
+
+    .detail-video-frame {
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      min-height: 455px;
+      background: #0b0d14;
+      box-shadow: 0 18px 40px rgba(8, 9, 88, 0.08);
+    }
+
+    .detail-video-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .detail-player-overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 18px 20px 16px;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 68%, rgba(0, 0, 0, 0.84) 100%);
+      color: #ffffff;
+    }
+
+    .detail-video-progress {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.35);
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .detail-video-progress span {
+      display: block;
+      width: 3%;
+      height: 100%;
+      background: var(--green);
+      border-radius: inherit;
+    }
+
+    .detail-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .detail-controls-left,
+    .detail-controls-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .detail-circle-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.14);
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-size: 1.05rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .detail-time {
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .detail-quiz-box {
+      padding: 16px 18px 14px;
+    }
+
+    .detail-quiz-box h3 {
+      margin: 0 0 8px;
+      font-size: 1.08rem;
+      color: var(--navy);
+    }
+
+    .detail-quiz-box p {
+      margin: 0 0 14px;
+      font-size: 0.94rem;
+      color: var(--text-muted);
+    }
+
+    .detail-quiz-meter {
+      height: 8px;
+      border-radius: 999px;
+      background: #eff3f8;
+      overflow: hidden;
+      border: 1px solid rgba(23, 223, 28, 0.7);
+      margin-bottom: 10px;
+    }
+
+    .detail-quiz-meter span {
+      display: block;
+      width: 5%;
+      height: 100%;
+      background: var(--green);
+      border-radius: inherit;
+    }
+
+    .detail-quiz-meta {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .detail-learning-column {
+      display: grid;
+      gap: 18px;
+    }
+
+    .detail-content-card {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1.5px solid rgba(23, 223, 28, 0.85);
+      border-radius: 22px;
+      box-shadow: 0 18px 40px rgba(8, 9, 88, 0.08);
+      padding: 20px 22px;
+    }
+
+    .detail-reading-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .detail-reading-top h3,
+    .detail-assessment-card h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.22rem;
+      line-height: 1.25;
+    }
+
+    .detail-status-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      margin-top: 10px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      background: rgba(23, 223, 28, 0.16);
+      border: 1px solid rgba(23, 223, 28, 0.38);
+      color: var(--green-deeper);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .detail-reading-progress-block {
+      min-width: 220px;
+      flex: 0 0 220px;
+    }
+
+    .detail-reading-progress-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .detail-reading-progress-bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #eff3f8;
+      overflow: hidden;
+      border: 1px solid rgba(23, 223, 28, 0.7);
+    }
+
+    .detail-reading-progress-bar span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--green-dark) 0%, var(--green) 100%);
+      border-radius: inherit;
+    }
+
+    .detail-reading-copy {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .detail-reading-copy p {
+      margin: 0;
+      color: var(--text-main);
+      font-size: 0.97rem;
+      line-height: 1.72;
+    }
+
+    .detail-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .detail-action-btn,
+    .detail-outline-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 11px 20px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(23, 223, 28, 0.6);
+      text-decoration: none;
+      font-size: 0.94rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    }
+
+    .detail-action-btn {
+      background: var(--green);
+      color: var(--navy);
+    }
+
+    .detail-outline-btn {
+      background: #ffffff;
+      color: var(--navy);
+    }
+
+    .detail-action-btn:hover,
+    .detail-outline-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .detail-module-group.is-active {
+      box-shadow: 0 0 0 1px rgba(23, 223, 28, 0.22);
+    }
+
+    .detail-module-group.is-active .detail-module-toggle {
+      background: rgba(23, 223, 28, 0.08);
+    }
+
+    .detail-assessment-subtitle {
+      margin: 8px 0 16px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .detail-question {
+      margin: 0 0 16px;
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .detail-options {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .detail-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1.5px solid rgba(23, 223, 28, 0.24);
+      background: #ffffff;
+      color: var(--text-main);
+    }
+
+    .detail-option.is-correct {
+      border-color: rgba(23, 223, 28, 0.55);
+      background: rgba(23, 223, 28, 0.08);
+    }
+
+    .detail-option-marker {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(23, 223, 28, 0.5);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 22px;
+      color: var(--green-deeper);
+      font-size: 0.74rem;
+      font-weight: 800;
+      margin-top: 1px;
+    }
+
+    .detail-option-text {
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .detail-result-row {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid #e6ebf4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .detail-result-row p {
+      margin: 0;
+      color: var(--text-main);
+      font-size: 0.96rem;
+      font-weight: 700;
+    }
+
+    .detail-result-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(23, 223, 28, 0.16);
+      border: 1px solid rgba(23, 223, 28, 0.4);
+      color: var(--green-deeper);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-info-box,
+    .course-detail-screen.courses-dark-mode .detail-sidebar,
+    .course-detail-screen.courses-dark-mode .detail-quiz-box,
+    .course-detail-screen.courses-dark-mode .detail-content-card {
+      background: #000000;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-module-group {
+      background: #000000;
+      border-color: rgba(23, 223, 28, 0.75);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-module-group.is-active .detail-module-toggle {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-module-header {
+      border-bottom-color: rgba(255, 255, 255, 0.10);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-info-box h2,
+    .course-detail-screen.courses-dark-mode .detail-module-header h3,
+    .course-detail-screen.courses-dark-mode .detail-module-name,
+    .course-detail-screen.courses-dark-mode .detail-lesson,
+    .course-detail-screen.courses-dark-mode .detail-lesson-title,
+    .course-detail-screen.courses-dark-mode .detail-quiz-box h3,
+    .course-detail-screen.courses-dark-mode .detail-reading-top h3,
+    .course-detail-screen.courses-dark-mode .detail-assessment-card h3,
+    .course-detail-screen.courses-dark-mode .detail-question,
+    .course-detail-screen.courses-dark-mode .detail-result-row p {
+      color: #ffffff;
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-info-box p,
+    .course-detail-screen.courses-dark-mode .detail-module-header p,
+    .course-detail-screen.courses-dark-mode .detail-module-meta-line,
+    .course-detail-screen.courses-dark-mode .detail-lesson-meta,
+    .course-detail-screen.courses-dark-mode .detail-quiz-box p,
+    .course-detail-screen.courses-dark-mode .detail-quiz-meta,
+    .course-detail-screen.courses-dark-mode .detail-reading-copy p,
+    .course-detail-screen.courses-dark-mode .detail-assessment-subtitle,
+    .course-detail-screen.courses-dark-mode .detail-reading-progress-label {
+      color: #b0b0b0;
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-ghost-btn {
+      background: #000000;
+      color: #ffffff;
+      border-color: rgba(23, 223, 28, 0.68);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-ghost-btn:hover {
+      background: #0a0a0a;
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-lesson {
+      background: #000000;
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-lesson.active {
+      background: #111111;
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-lesson + .detail-lesson {
+      border-top-color: rgba(255, 255, 255, 0.10);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-module-group.is-open .detail-module-lessons {
+      border-top-color: rgba(255, 255, 255, 0.10);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-icon {
+      background: #050505;
+      border-color: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-icon--success {
+      background: rgba(23, 223, 28, 0.16);
+      border-color: rgba(23, 223, 28, 0.45);
+      color: var(--green);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-module-badge,
+    .course-detail-screen.courses-dark-mode .detail-result-badge,
+    .course-detail-screen.courses-dark-mode .detail-status-badge {
+      background: rgba(23, 223, 28, 0.12);
+      border-color: rgba(23, 223, 28, 0.4);
+      color: var(--green);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-lesson.locked {
+      opacity: 0.72;
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-quiz-meter {
+      background: #111111;
+      border-color: rgba(23, 223, 28, 0.72);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-reading-progress-bar {
+      background: #111111;
+      border-color: rgba(23, 223, 28, 0.72);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-action-btn {
+      background: var(--green);
+      color: #000000;
+      border-color: rgba(23, 223, 28, 0.72);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-outline-btn {
+      background: #000000;
+      color: #ffffff;
+      border-color: rgba(23, 223, 28, 0.72);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-option {
+      background: #000000;
+      color: #ffffff;
+      border-color: rgba(23, 223, 28, 0.2);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-option.is-correct {
+      background: #111111;
+      border-color: rgba(23, 223, 28, 0.52);
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-option-marker {
+      color: var(--green);
+      border-color: rgba(23, 223, 28, 0.5);
+      background: #050505;
+    }
+
+    .course-detail-screen.courses-dark-mode .detail-result-row {
+      border-top-color: rgba(255, 255, 255, 0.10);
+    }
+
+    .progress-main {
+      width: min(1280px, calc(100% - 56px));
+      margin: 48px auto 0;
+      padding: 0 0 56px;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    .progress-analytics-panel {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #e2e8f2;
+      border-radius: 26px;
+      box-shadow: 0 18px 40px rgba(8, 9, 88, 0.08);
+      padding: 28px 34px 30px;
+      margin-bottom: 34px;
+    }
+
+    .progress-analytics-title {
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0 0 26px;
+      letter-spacing: -0.02em;
+    }
+
+    .progress-filters-row {
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .progress-filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+    }
+
+    .progress-filter-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #7f8daa;
+      text-transform: uppercase;
+    }
+
+    .progress-select-trigger,
+    .progress-date-trigger {
+      min-height: 54px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      font-size: 1.08rem;
+      color: #2a3760;
+      box-shadow: 0 6px 18px rgba(8, 9, 88, 0.05);
+      cursor: pointer;
+    }
+
+    .progress-select-trigger {
+      width: 116px;
+    }
+
+    .progress-date-trigger {
+      width: 300px;
+    }
+
+    .progress-trigger-icon {
+      opacity: 0.7;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .progress-period-menu,
+    .progress-month-popover {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(8, 9, 88, 0.12);
+      overflow: hidden;
+      position: absolute;
+      left: 0;
+      top: calc(100% + 12px);
+      display: none;
+      z-index: 5;
+    }
+
+    .progress-filter-group.is-open .progress-period-menu,
+    .progress-filter-group.is-open .progress-month-popover {
+      display: block;
+    }
+
+    .progress-period-menu {
+      width: 184px;
+    }
+
+    .progress-period-item {
+      padding: 14px 18px;
+      font-size: 1.02rem;
+      color: #37415f;
+      border-bottom: 1px solid #edf1f7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .progress-period-item:last-child {
+      border-bottom: none;
+    }
+
+    .progress-period-item.active {
+      background: linear-gradient(90deg, rgba(23, 223, 28, 0.42), rgba(23, 223, 28, 0.2));
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .progress-month-popover {
+      width: 332px;
+    }
+
+    .progress-month-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid #edf1f7;
+      font-size: 1.02rem;
+      color: #47557c;
+    }
+
+    .progress-month-nav {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .progress-month-head strong {
+      font-size: 1.34rem;
+      color: #334166;
+      font-weight: 700;
+    }
+
+    .progress-month-grid {
+      padding: 16px 20px 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px 14px;
+    }
+
+    .progress-month-item {
+      border: 1px solid #dfe6f1;
+      background: #ffffff;
+      text-align: center;
+      font-size: 1rem;
+      color: #3a496d;
+      padding: 11px 0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .progress-month-item.active {
+      background: var(--green);
+      border-color: rgba(23, 223, 28, 0.75);
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .progress-month-item.current {
+      font-weight: 800;
+    }
+
+    .progress-month-item:hover {
+      background: rgba(23, 223, 28, 0.08);
+      border-color: rgba(23, 223, 28, 0.3);
+      color: var(--navy);
+    }
+
+    .progress-month-footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-top: 1px solid #edf1f7;
+      font-size: 1rem;
+      color: #2d7a63;
+    }
+
+    .progress-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+
+    .progress-metric-card {
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 24px;
+      min-height: 164px;
+      padding: 26px 28px;
+      box-shadow: 0 18px 40px rgba(8, 9, 88, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .progress-metric-card.blue {
+      border: 1.5px solid rgba(28, 85, 197, 0.58);
+      background: rgba(28, 85, 197, 0.06);
+    }
+
+    .progress-metric-card.green {
+      border: 1.5px solid rgba(5, 165, 78, 0.52);
+      background: rgba(5, 165, 78, 0.05);
+    }
+
+    .progress-metric-card.purple {
+      border: 1.5px solid rgba(8, 9, 88, 0.54);
+      background: rgba(8, 9, 88, 0.05);
+    }
+
+    .progress-metric-card.orange {
+      border: 1.5px solid rgba(112, 129, 160, 0.58);
+      background: rgba(112, 129, 160, 0.08);
+    }
+
+    .progress-metric-label {
+      font-size: 0.96rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #7183a7;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .progress-metric-value {
+      font-size: 3.5rem;
+      line-height: 1;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .progress-metric-sub {
+      font-size: 1rem;
+      color: #7485a6;
+    }
+
+    .progress-screen.courses-dark-mode .progress-analytics-panel,
+    .progress-screen.courses-dark-mode .progress-period-menu,
+    .progress-screen.courses-dark-mode .progress-month-popover,
+    .progress-screen.courses-dark-mode .progress-metric-card {
+      background: #000000;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    .progress-screen.courses-dark-mode .progress-analytics-panel {
+      border-color: rgba(23, 223, 28, 0.38);
+    }
+
+    .progress-screen.courses-dark-mode .progress-analytics-title,
+    .progress-screen.courses-dark-mode .progress-metric-value {
+      color: #ffffff;
+    }
+
+    .progress-screen.courses-dark-mode .progress-filter-label,
+    .progress-screen.courses-dark-mode .progress-metric-label {
+      color: #b0b0b0;
+    }
+
+    .progress-screen.courses-dark-mode .progress-select-trigger,
+    .progress-screen.courses-dark-mode .progress-date-trigger {
+      background: #000000;
+      color: #ffffff;
+      border-color: rgba(23, 223, 28, 0.3);
+      box-shadow: none;
+    }
+
+    .progress-screen.courses-dark-mode .progress-period-menu,
+    .progress-screen.courses-dark-mode .progress-month-popover {
+      border-color: rgba(23, 223, 28, 0.32);
+    }
+
+    .progress-screen.courses-dark-mode .progress-period-item,
+    .progress-screen.courses-dark-mode .progress-month-item,
+    .progress-screen.courses-dark-mode .progress-month-head,
+    .progress-screen.courses-dark-mode .progress-month-head strong,
+    .progress-screen.courses-dark-mode .progress-month-footer,
+    .progress-screen.courses-dark-mode .progress-month-nav {
+      color: #ffffff;
+    }
+
+    .progress-screen.courses-dark-mode .progress-period-item,
+    .progress-screen.courses-dark-mode .progress-month-head,
+    .progress-screen.courses-dark-mode .progress-month-footer {
+      border-color: rgba(255, 255, 255, 0.10);
+    }
+
+    .progress-screen.courses-dark-mode .progress-period-item.active {
+      color: #ffffff;
+    }
+
+    .progress-screen.courses-dark-mode .progress-month-item {
+      background: #050505;
+      border-color: rgba(255, 255, 255, 0.12);
+      color: #d6d6d6;
+    }
+
+    .progress-screen.courses-dark-mode .progress-month-item:hover {
+      background: rgba(23, 223, 28, 0.10);
+      border-color: rgba(23, 223, 28, 0.34);
+      color: #ffffff;
+    }
+
+    .progress-screen.courses-dark-mode .progress-month-item.active {
+      background: var(--green);
+      border-color: rgba(23, 223, 28, 0.72);
+      color: #000000;
+    }
+
+    .progress-screen.courses-dark-mode .progress-metric-sub {
+      color: #b0b0b0;
+    }
+
+    .progress-screen.courses-dark-mode .progress-metric-card.blue {
+      border-color: rgba(28, 85, 197, 0.78);
+    }
+
+    .progress-screen.courses-dark-mode .progress-metric-card.green {
+      border-color: rgba(23, 223, 28, 0.78);
+    }
+
+    .progress-screen.courses-dark-mode .progress-metric-card.purple {
+      border-color: rgba(28, 85, 197, 0.78);
+    }
+
+    .progress-screen.courses-dark-mode .progress-metric-card.orange {
+      border-color: rgba(23, 223, 28, 0.78);
+    }
+
+    .certificates-main {
+      width: min(1180px, calc(100% - 56px));
+      margin: 46px auto 0;
+      padding: 0 0 56px;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    .certificates-wrap {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid #e3e9f2;
+      border-radius: 28px;
+      box-shadow: 0 18px 40px rgba(8, 9, 88, 0.08);
+      padding: 34px 34px 36px;
+      min-height: 580px;
+    }
+
+    .certificates-title {
+      margin: 0 0 26px;
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+
+    .certificates-empty-state {
+      border: 1px solid #e5ebf4;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.9);
+      min-height: 470px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .certificates-empty-state::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(23, 223, 28, 0.10) 0%, rgba(23, 223, 28, 0) 70%);
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      filter: blur(8px);
+    }
+
+    .certificates-illustration {
+      position: relative;
+      width: 220px;
+      height: 170px;
+      margin-bottom: 28px;
+      z-index: 1;
+    }
+
+    .certificates-doc-back {
+      position: absolute;
+      width: 150px;
+      height: 110px;
+      background: #edf3fb;
+      border-radius: 18px;
+      left: 48px;
+      top: 22px;
+      box-shadow: 0 10px 18px rgba(8, 9, 88, 0.06);
+    }
+
+    .certificates-doc-front {
+      position: absolute;
+      width: 150px;
+      height: 116px;
+      background: #ffffff;
+      border: 1px solid #e4ebf5;
+      border-radius: 18px;
+      left: 24px;
+      top: 10px;
+      box-shadow: 0 14px 22px rgba(8, 9, 88, 0.08);
+    }
+
+    .certificates-doc-line {
+      height: 8px;
+      border-radius: 999px;
+      background: #dce8f5;
+      margin: 18px 18px 0;
+    }
+
+    .certificates-doc-line:nth-child(1) {
+      width: 72px;
+    }
+
+    .certificates-doc-line:nth-child(2) {
+      width: 90px;
+    }
+
+    .certificates-doc-line:nth-child(3) {
+      width: 84px;
+    }
+
+    .certificates-seal {
+      position: absolute;
+      width: 76px;
+      height: 76px;
+      right: 14px;
+      bottom: 14px;
+      border-radius: 50%;
+      background: #f7c942;
+      box-shadow: 0 10px 18px rgba(247, 201, 66, 0.28);
+      display: grid;
+      place-items: center;
+    }
+
+    .certificates-seal::before {
+      content: "";
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: block;
+      box-shadow: inset 0 0 0 5px #37b86d;
+    }
+
+    .certificates-seal::after {
+      content: "★";
+      position: absolute;
+      color: #37b86d;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .certificates-ribbon-left,
+    .certificates-ribbon-right {
+      position: absolute;
+      width: 18px;
+      height: 34px;
+      background: #36b96d;
+      bottom: -20px;
+      border-radius: 4px;
+    }
+
+    .certificates-ribbon-left {
+      left: 12px;
+      transform: rotate(8deg);
+    }
+
+    .certificates-ribbon-right {
+      right: 12px;
+      transform: rotate(-8deg);
+    }
+
+    .certificates-empty-title {
+      position: relative;
+      z-index: 1;
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin: 0 0 12px;
+      color: var(--navy);
+    }
+
+    .certificates-empty-text {
+      position: relative;
+      z-index: 1;
+      max-width: 520px;
+      font-size: 1.04rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      margin: 0 0 28px;
+    }
+
+    .certificates-empty-btn {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 250px;
+      min-height: 54px;
+      padding: 0 26px;
+      border: none;
+      border-radius: 16px;
+      background: var(--green);
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      box-shadow: 0 12px 26px rgba(68, 179, 111, 0.24);
+      text-decoration: none;
+      transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .certificates-empty-btn:hover {
+      background: var(--green-dark);
+      box-shadow: 0 16px 30px rgba(68, 179, 111, 0.28);
+      transform: translateY(-1px);
+    }
+
+    .certificates-screen.courses-dark-mode .certificates-wrap,
+    .certificates-screen.courses-dark-mode .certificates-empty-state {
+      background: #000000;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    .certificates-screen.courses-dark-mode .certificates-wrap {
+      border-color: rgba(23, 223, 28, 0.32);
+    }
+
+    .certificates-screen.courses-dark-mode .certificates-empty-state {
+      border-color: rgba(255, 255, 255, 0.10);
+    }
+
+    .certificates-screen.courses-dark-mode .certificates-title,
+    .certificates-screen.courses-dark-mode .certificates-empty-title {
+      color: #ffffff;
+    }
+
+    .certificates-screen.courses-dark-mode .certificates-empty-text {
+      color: #b0b0b0;
+    }
+
+    .certificates-screen.courses-dark-mode .certificates-doc-back {
+      background: #050505;
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.16);
+    }
+
+    .certificates-screen.courses-dark-mode .certificates-doc-front {
+      background: #0a0a0a;
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 14px 22px rgba(0, 0, 0, 0.18);
+    }
+
+    .certificates-screen.courses-dark-mode .certificates-doc-line {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .header,
+    .navbar {
+      background: var(--navy);
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 36px;
+      height: 80px;
+      min-height: 80px;
+      padding: 0 36px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(8, 9, 88, 0.16);
+    }
+
+    .header-left,
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-right {
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .logo {
+      height: 130px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-item {
+      color: rgba(255, 255, 255, 0.78);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 1.03rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 0.18s ease, color 0.18s ease;
+    }
+
+    .nav-item.active {
+      background: var(--green);
+      color: var(--navy);
+    }
+
+    .theme-toggle {
+      width: 44px;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #17df1c;
+      border: 0;
+      color: #ffffff;
+      border-radius: 12px;
+      font-size: 1.08rem;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(13, 180, 19, 0.22);
+    }
+
+    .theme-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-icon svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+    }
+
+    .user {
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .logout-btn {
+      border: 0;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--white);
+      padding: 11px 18px;
+      font: 700 0.94rem var(--font);
+      cursor: pointer;
+      transition: background-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 36px 0 56px;
+    }
+
+    .courses-screen .container {
+      flex: 1;
+    }
+
+    .container h1 {
+      color: var(--navy);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      margin-bottom: 18px;
+    }
+
+    .courses-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .course-card {
+      width: 320px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(219, 228, 238, 0.9);
+      box-shadow:
+        0 12px 28px rgba(15, 35, 82, 0.08),
+        0 24px 44px rgba(15, 35, 82, 0.08);
+    }
+
+    .course-image {
+      position: relative;
+      background: #dfe6f3;
+      overflow: hidden;
+    }
+
+    .course-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 9, 88, 0.16);
+      opacity: 0;
+      transition: opacity 0.22s ease;
+      pointer-events: none;
+    }
+
+    .course-image img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+
+    .badge {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      background: var(--green);
+      color: var(--white);
+      z-index: 2;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      box-shadow: 0 8px 18px rgba(13, 180, 19, 0.22);
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    .course-cta {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 2;
+      transform: translate(-50%, -50%) scale(0.96);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      background: #ffffff;
+      color: var(--navy);
+      text-decoration: none;
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      box-shadow: 0 14px 30px rgba(8, 9, 88, 0.16);
+      transition:
+        opacity 0.22s ease,
+        visibility 0.22s ease,
+        transform 0.22s ease,
+        box-shadow 0.22s ease;
+    }
+
+    .course-image:hover::after,
+    .course-image:focus-within::after {
+      opacity: 1;
+    }
+
+    .course-image:hover .badge,
+    .course-image:focus-within .badge {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .course-image:hover .course-cta,
+    .course-image:focus-within .course-cta {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .course-cta:hover {
+      box-shadow: 0 18px 34px rgba(8, 9, 88, 0.2);
+    }
+
+    .course-body {
+      padding: 18px 18px 20px;
+    }
+
+    .course-body h2 {
+      color: var(--navy);
+      font-size: 1.08rem;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .chapter {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 16px;
+    }
+
+    .progress-section {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--text-label);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #e8edf5;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green-dark) 0%, var(--green) 100%);
+      border-radius: inherit;
+    }
+
+    .courses-screen .site-footer {
+      margin-top: auto;
+      background: rgba(255, 255, 255, 0.94);
+      border-top: 1px solid #e8edf5;
+      padding: 14px 30px;
+      font-size: 0.8rem;
+    }
+
+    .courses-screen.courses-dark-mode .site-footer {
+      background: #000000;
+      color: #ffffff;
+      border-top-color: #000000;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    .courses-screen.courses-dark-mode .site-footer .footer-links a {
+      color: #ffffff;
+    }
+
+    .courses-screen.courses-dark-mode .site-footer .footer-links a:hover {
+      color: #ffffff;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 1180px) {
+      .detail-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-video-frame {
+        min-height: 380px;
+      }
+
+      .progress-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .course-detail-main {
+        width: min(100%, calc(100% - 28px));
+        margin-top: 24px;
+        padding-bottom: 40px;
+      }
+
+      .progress-main {
+        width: min(100%, calc(100% - 28px));
+        margin-top: 32px;
+        padding-bottom: 40px;
+      }
+
+      .certificates-main {
+        width: min(100%, calc(100% - 28px));
+        margin-top: 32px;
+        padding-bottom: 40px;
+      }
+
+      .progress-metrics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .progress-month-popover {
+        width: min(100%, 332px);
+      }
+
+      .progress-filter-group {
+        width: 100%;
+      }
+
+      .certificates-wrap {
+        padding: 24px 20px;
+      }
+
+      .certificates-empty-state {
+        min-height: 420px;
+      }
+
+      .certificates-empty-btn {
+        min-width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 26px 14px 64px;
+      }
+
+      #login-screen {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+      }
+
+      #login-screen .page {
+        padding: 20px 14px 16px;
+      }
+
+      .login-card {
+        max-width: 100%;
+        border-radius: 18px;
+      }
+
+      .card-body {
+        padding: 19px 18px 12px;
+      }
+
+      .brand-logo {
+        width: min(206px, 72%);
+      }
+
+      .card-title {
+        font-size: 1.2rem;
+        margin: 7px 0 12px;
+      }
+
+      .site-footer {
+        padding: 14px 18px;
+        font-size: 0.82rem;
+      }
+
+      .footer-links {
+        gap: 18px;
+      }
+
+      .header {
+        height: auto;
+        min-height: 76px;
+        padding: 14px 18px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .header-left,
+      .header-right,
+      .nav {
+        width: 100%;
+      }
+
+      .header-right {
+        justify-content: flex-start;
+      }
+
+      .container {
+        width: min(100%, calc(100% - 28px));
+        padding: 26px 0 40px;
+      }
+
+      .container h1 {
+        font-size: 1.7rem;
+      }
+
+      .course-card {
+        width: 100%;
+      }
+
+      .course-detail-main {
+        width: min(100%, calc(100% - 28px));
+        margin-top: 20px;
+        padding-bottom: 32px;
+      }
+
+      .progress-main {
+        width: min(100%, calc(100% - 28px));
+        margin-top: 24px;
+        padding-bottom: 32px;
+      }
+
+      .certificates-main {
+        width: min(100%, calc(100% - 28px));
+        margin-top: 24px;
+        padding-bottom: 32px;
+      }
+
+      .progress-analytics-panel {
+        padding: 20px 18px 22px;
+      }
+
+      .progress-analytics-title {
+        font-size: 1.55rem;
+        margin-bottom: 22px;
+      }
+
+      .progress-date-trigger,
+      .progress-month-popover {
+        width: 100%;
+      }
+
+      .progress-select-trigger {
+        width: 100%;
+      }
+
+      .progress-period-menu {
+        width: 100%;
+      }
+
+      .progress-filters-row {
+        gap: 18px;
+      }
+
+      .detail-info-box {
+        padding: 16px 16px 15px;
+      }
+
+      .detail-layout {
+        gap: 14px;
+      }
+
+      .detail-video-frame {
+        min-height: 300px;
+      }
+
+      .detail-player-overlay {
+        padding: 14px 14px 13px;
+      }
+
+      .detail-controls {
+        gap: 10px;
+      }
+
+      .detail-controls-left,
+      .detail-controls-right {
+        gap: 10px;
+      }
+
+      .detail-circle-btn {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-blob bg-blob--left" aria-hidden="true"></div>
+  <div class="bg-blob bg-blob--right" aria-hidden="true"></div>
+  <div class="bg-blob bg-blob--top" aria-hidden="true"></div>
+
+  <div id="login-screen">
+      <main class="page">
+        <section class="login-card" aria-label="Inicio de sesi&oacute;n IntegraSafe">
+          <div class="card-body">
+            <div class="brand">
+              <img
+                class="brand-logo"
+                src="Logo IntegraSafe colores.png"
+                alt="Logo IntegraSafe"
+              />
+            </div>
+
+            <h2 class="card-title">Iniciar sesi&oacute;n</h2>
+
+            <div class="field">
+              <label class="field__label" for="email">Email</label>
+              <div class="field__wrap">
+                <input
+                  class="field__input field__input--active"
+                  id="email"
+                  type="email"
+                  placeholder="tucorreo@empresa.com"
+                  autocomplete="email"
+                  value="pedro@empresa.com"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="password">Contrase&ntilde;a</label>
+              <div class="field__wrap">
+                <input
+                  class="field__input field__input--muted"
+                  id="password"
+                  type="password"
+                  autocomplete="current-password"
+                  value="12345678"
+                />
+                <button
+                  class="eye-btn"
+                  type="button"
+                  id="eye-toggle"
+                  aria-label="Mostrar contrase&ntilde;a"
+                >
+                  <svg
+                    id="icon-hide"
+                    viewBox="0 0 24 24"
+                    width="19"
+                    height="19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M3 3L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <path d="M10.58 10.58A2 2 0 0013.42 13.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    <path
+                      d="M9.88 5.09A10.94 10.94 0 0112 4.9c4.91 0 8.27 3.11 9.5 6.1a1.83 1.83 0 010 1.39 11.25 11.25 0 01-2.82 4.16"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M6.23 6.23A11.2 11.2 0 002.5 11a1.83 1.83 0 000 1.39c1.23 2.99 4.59 6.1 9.5 6.1 1.47 0 2.82-.28 4.05-.77"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <svg
+                    id="icon-show"
+                    viewBox="0 0 24 24"
+                    width="19"
+                    height="19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style="display: none"
+                  >
+                    <path
+                      d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="forgot">
+              <a class="forgot__link" href="#">Olvid&eacute; mi contrase&ntilde;a</a>
+            </div>
+
+            <button class="btn-enter" id="enter-btn" type="button">Entrar</button>
+          </div>
+
+          <div class="card-meta">
+            Un servicio de
+            <span class="sheeq" aria-label="SHEEQ Consulting">
+              <span class="c1">S</span><span class="c2">H</span><span class="c3">E</span><span class="c4">E</span><span class="c5">Q</span>
+            </span>
+            Consulting
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div>&#169; 2026 IntegraSafe | Un servicio de SHEEQ Consulting</div>
+        <nav class="footer-links" aria-label="Enlaces legales">
+          <a href="#">Pol&iacute;tica de Privacidad</a>
+          <a href="#">T&eacute;rminos de Servicio</a>
+        </nav>
+      </footer>
+    </div>
+
+  <div id="mis-cursos-screen" class="courses-screen screen-hidden courses-light-mode">
+      <header class="header">
+        <div class="header-left">
+          <img src="Logo Blanco IntegraSafe.png" class="logo" alt="IntegraSafe" />
+        </div>
+
+        <nav class="nav" aria-label="Navegaci&oacute;n principal">
+          <a class="nav-item active" href="#" data-show-screen="mis-cursos-screen">Mis cursos</a>
+          <a class="nav-item" href="#" data-show-screen="progress-screen">Mi progreso</a>
+          <a class="nav-item" href="#" data-show-screen="certificates-screen">Certificados</a>
+        </nav>
+
+        <div class="header-right">
+          <button class="theme-toggle" data-theme-toggle type="button" aria-label="Cambiar tema">
+            <span class="theme-icon" data-theme-icon aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="4" stroke="#ffffff" stroke-width="2" />
+                <path d="M12 2V5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M12 19V22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M2 12H5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M19 12H22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M4.93 4.93L7.05 7.05" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M16.95 16.95L19.07 19.07" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M16.95 7.05L19.07 4.93" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M4.93 19.07L7.05 16.95" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </span>
+          </button>
+          <span class="user">Pedro</span>
+          <button class="logout-btn" type="button">Cerrar sesi&oacute;n</button>
+        </div>
+      </header>
+
+      <main class="container">
+        <h1>Mis cursos</h1>
+        <p class="subtitle">1 curso(s)</p>
+
+        <div class="courses-grid">
+          <div class="course-card">
+            <div class="course-image">
+              <img src="Portada Modulo de Seguridad Vial.png" alt="Portada del curso" />
+              <span class="badge">Curso activo</span>
+              <a class="course-cta" href="#" data-show-screen="course-detail-screen">Continuar Curso</a>
+            </div>
+
+            <div class="course-body">
+              <h2>Seguridad vial en el entorno laboral</h2>
+              <p class="chapter">Cap&iacute;tulo 1 &middot; El factor humano</p>
+
+              <div class="progress-section">
+                <span>PROGRESO</span>
+                <span>3%</span>
+              </div>
+
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 3%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div>&#169; 2026 IntegraSafe | Un servicio de SHEEQ Consulting</div>
+        <nav class="footer-links" aria-label="Enlaces legales">
+          <a href="#">Pol&iacute;tica de Privacidad</a>
+          <a href="#">T&eacute;rminos de Servicio</a>
+        </nav>
+      </footer>
+  </div>
+
+  <div id="course-detail-screen" class="courses-screen course-detail-screen screen-hidden courses-light-mode">
+      <header class="header">
+        <div class="header-left">
+          <img src="Logo Blanco IntegraSafe.png" class="logo" alt="IntegraSafe" />
+        </div>
+
+        <nav class="nav" aria-label="Navegaci&oacute;n principal">
+          <a class="nav-item active" href="#" data-show-screen="mis-cursos-screen">Mis cursos</a>
+          <a class="nav-item" href="#" data-show-screen="progress-screen">Mi progreso</a>
+          <a class="nav-item" href="#" data-show-screen="certificates-screen">Certificados</a>
+        </nav>
+
+        <div class="header-right">
+          <button class="theme-toggle" data-theme-toggle type="button" aria-label="Cambiar tema">
+            <span class="theme-icon" data-theme-icon aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="4" stroke="#ffffff" stroke-width="2" />
+                <path d="M12 2V5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M12 19V22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M2 12H5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M19 12H22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M4.93 4.93L7.05 7.05" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M16.95 16.95L19.07 19.07" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M16.95 7.05L19.07 4.93" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M4.93 19.07L7.05 16.95" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </span>
+          </button>
+          <span class="user">Pedro</span>
+          <button class="logout-btn" type="button">Cerrar sesi&oacute;n</button>
+        </div>
+      </header>
+
+      <main class="course-detail-main">
+        <section class="detail-top-boxes">
+          <div class="detail-info-box">
+            <h2>Seguridad vial en el entorno laboral</h2>
+            <p>Progreso curso: 3% | Progreso m&oacute;dulo: 5% | Min: 80% | Quiz: Pendiente (0%)</p>
+          </div>
+
+          <div class="detail-info-box">
+            <h2>Examen final</h2>
+            <p>Completa el curso para habilitar el examen. Progreso: 3% / Requerido: 90%</p>
+            <a class="detail-ghost-btn" href="#">Hacer examen final</a>
+          </div>
+        </section>
+
+        <section class="detail-layout">
+          <aside class="detail-sidebar">
+            <div class="detail-module-group">
+              <div class="detail-module-header">
+                <h3>M&oacute;dulo 1</h3>
+                <p>Con quiz | Min: 80%</p>
+              </div>
+
+              <a href="#" class="detail-lesson active" data-module-target="module-1" data-module-entry="module-1">
+                <div class="detail-icon">&#9654;</div>
+                <div>
+                  <p class="detail-lesson-title">Video 1</p>
+                  <p class="detail-lesson-meta">En progreso</p>
+                </div>
+              </a>
+
+              <div class="detail-lesson locked">
+                <div class="detail-icon">&#128274;</div>
+                <div>
+                  <p class="detail-lesson-title">En esta parte</p>
+                  <p class="detail-lesson-meta">Bloqueado</p>
+                </div>
+              </div>
+
+              <div class="detail-lesson locked">
+                <div class="detail-icon">&#128274;</div>
+                <div>
+                  <p class="detail-lesson-title">Texto dos</p>
+                  <p class="detail-lesson-meta">Bloqueado</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="detail-module-group" data-module-group="module-2" data-module-entry="module-2">
+              <button class="detail-module-toggle" type="button" data-module-target="module-2">
+                <span class="detail-module-name-row">
+                  <span class="detail-module-name">M&oacute;dulo 2</span>
+                  <span class="detail-module-badge">Completado</span>
+                </span>
+                <span class="detail-module-meta-line">Con quiz | Min: 80%</span>
+              </button>
+
+              <div class="detail-module-lessons">
+                <div class="detail-lesson detail-lesson--completed">
+                  <div class="detail-icon detail-icon--success">&#10003;</div>
+                  <div>
+                    <p class="detail-lesson-title">Lectura principal</p>
+                    <p class="detail-lesson-meta">Completado</p>
+                  </div>
+                </div>
+
+                <div class="detail-lesson detail-lesson--completed">
+                  <div class="detail-icon detail-icon--success">&#10003;</div>
+                  <div>
+                    <p class="detail-lesson-title">Evaluaci&oacute;n del m&oacute;dulo</p>
+                    <p class="detail-lesson-meta">Completado</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <div class="detail-panel-host">
+            <div class="detail-video-column detail-panel-view is-active" data-panel="module-1">
+              <div class="detail-video-frame">
+                <img src="Portada Modulo de Seguridad Vial.png" alt="Portada del curso" />
+
+                <div class="detail-player-overlay">
+                  <div class="detail-video-progress"><span></span></div>
+
+                  <div class="detail-controls">
+                    <div class="detail-controls-left">
+                      <div class="detail-circle-btn">&#9654;</div>
+                      <div class="detail-circle-btn">&#9198;</div>
+                      <div class="detail-circle-btn">&#9197;</div>
+                      <div class="detail-time">1:47 / 14:56</div>
+                    </div>
+
+                    <div class="detail-controls-right">
+                      <div class="detail-circle-btn">&#9654;</div>
+                      <div class="detail-circle-btn">&#9881;</div>
+                      <div class="detail-circle-btn">&#128266;</div>
+                      <div class="detail-circle-btn">&#9974;</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="detail-quiz-box">
+                <h3>Quiz bloqueado</h3>
+                <p>Completa el m&iacute;nimo requerido para habilitar el quiz.</p>
+                <div class="detail-quiz-meter"><span></span></div>
+                <div class="detail-quiz-meta">Progreso m&oacute;dulo: 5% / Min: 80%</div>
+              </div>
+            </div>
+
+            <div class="detail-learning-column detail-panel-view" data-panel="module-2">
+              <div class="detail-content-card">
+                <div class="detail-reading-top">
+                  <div>
+                    <h3>Se&ntilde;alizaci&oacute;n y control del tr&aacute;nsito en obra</h3>
+                    <span class="detail-status-badge">Completado</span>
+                  </div>
+
+                  <div class="detail-reading-progress-block">
+                    <div class="detail-reading-progress-label">
+                      <span>PROGRESO</span>
+                      <span>100%</span>
+                    </div>
+                    <div class="detail-reading-progress-bar"><span></span></div>
+                  </div>
+                </div>
+
+                <div class="detail-reading-copy">
+                  <p>En entornos laborales donde se realizan trabajos viales, la se&ntilde;alizaci&oacute;n es clave para prevenir accidentes. El uso correcto de se&ntilde;ales como &ldquo;ALTO&rdquo;, conos, banderilleros y desv&iacute;os permite controlar el flujo vehicular y proteger tanto a los trabajadores como a los conductores.</p>
+                  <p>Es fundamental que cada trabajador entienda su rol dentro del sistema de control de tr&aacute;nsito, mantenga comunicaci&oacute;n constante y respete los protocolos establecidos.</p>
+                </div>
+
+                <div class="detail-action-row">
+                  <button class="detail-outline-btn" type="button" data-module-target="module-2">Siguiente &#8594;</button>
+                </div>
+              </div>
+
+              <div class="detail-content-card detail-assessment-card">
+                <h3>Evaluaci&oacute;n del m&oacute;dulo</h3>
+                <p class="detail-assessment-subtitle">Pregunta 1 de 2</p>
+                <p class="detail-question">&iquest;Cu&aacute;l es la funci&oacute;n principal de la se&ntilde;al de &ldquo;ALTO&rdquo; en una zona de trabajo vial?</p>
+
+                <div class="detail-options">
+                  <div class="detail-option is-correct">
+                    <span class="detail-option-marker">&#10003;</span>
+                    <span class="detail-option-text">Detener completamente el veh&iacute;culo antes de continuar</span>
+                  </div>
+
+                  <div class="detail-option">
+                    <span class="detail-option-marker"></span>
+                    <span class="detail-option-text">Reducir la velocidad sin detenerse</span>
+                  </div>
+
+                  <div class="detail-option">
+                    <span class="detail-option-marker"></span>
+                    <span class="detail-option-text">Indicar una zona sin tr&aacute;nsito</span>
+                  </div>
+
+                  <div class="detail-option">
+                    <span class="detail-option-marker"></span>
+                    <span class="detail-option-text">Se&ntilde;alar el final de la obra</span>
+                  </div>
+                </div>
+
+                <div class="detail-action-row">
+                  <button class="detail-outline-btn" type="button" data-module-target="module-1">&#8592; Atr&aacute;s</button>
+                  <button class="detail-action-btn" type="button" data-module-target="module-2">Siguiente &#8594;</button>
+                </div>
+
+                <div class="detail-result-row">
+                  <p>Resultado del m&oacute;dulo: 100%</p>
+                  <span class="detail-result-badge">Aprobado</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div>&#169; 2026 IntegraSafe | Un servicio de SHEEQ Consulting</div>
+        <nav class="footer-links" aria-label="Enlaces legales">
+          <a href="#">Pol&iacute;tica de Privacidad</a>
+          <a href="#">T&eacute;rminos de Servicio</a>
+        </nav>
+      </footer>
+  </div>
+
+  <div id="progress-screen" class="courses-screen progress-screen screen-hidden courses-light-mode">
+      <header class="header">
+        <div class="header-left">
+          <img src="Logo Blanco IntegraSafe.png" class="logo" alt="IntegraSafe" />
+        </div>
+
+        <nav class="nav" aria-label="Navegaci&oacute;n principal">
+          <a class="nav-item" href="#" data-show-screen="mis-cursos-screen">Mis cursos</a>
+          <a class="nav-item active" href="#" data-show-screen="progress-screen">Mi progreso</a>
+          <a class="nav-item" href="#" data-show-screen="certificates-screen">Certificados</a>
+        </nav>
+
+        <div class="header-right">
+          <button class="theme-toggle" data-theme-toggle type="button" aria-label="Cambiar tema">
+            <span class="theme-icon" data-theme-icon aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="4" stroke="#ffffff" stroke-width="2" />
+                <path d="M12 2V5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M12 19V22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M2 12H5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M19 12H22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M4.93 4.93L7.05 7.05" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M16.95 16.95L19.07 19.07" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M16.95 7.05L19.07 4.93" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M4.93 19.07L7.05 16.95" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </span>
+          </button>
+          <span class="user">Pedro</span>
+          <button class="logout-btn" type="button">Cerrar sesi&oacute;n</button>
+        </div>
+      </header>
+
+      <main class="progress-main">
+        <section class="progress-analytics-panel">
+          <h1 class="progress-analytics-title">Anal&iacute;ticas y Rendimiento</h1>
+
+          <div class="progress-filters-row">
+            <div class="progress-filter-group" data-progress-filter="period">
+              <span class="progress-filter-label">Periodo</span>
+              <div class="progress-select-trigger" data-progress-toggle aria-expanded="false">
+                <span>Mes</span>
+                <span class="progress-trigger-icon">&#8964;</span>
+              </div>
+
+              <div class="progress-period-menu">
+                <div class="progress-period-item">D&iacute;a</div>
+                <div class="progress-period-item active">
+                  <span>Mes</span>
+                  <span>&#10003;</span>
+                </div>
+                <div class="progress-period-item">A&ntilde;o</div>
+              </div>
+            </div>
+
+            <div class="progress-filter-group" data-progress-filter="month">
+              <span class="progress-filter-label">Mes</span>
+              <div class="progress-date-trigger" data-progress-toggle aria-expanded="false">
+                <span data-progress-month-display>abril de 2026</span>
+                <span class="progress-trigger-icon">&#128197;</span>
+              </div>
+
+              <div class="progress-month-popover">
+                <div class="progress-month-head">
+                  <button class="progress-month-nav" type="button" data-year-change="-1" aria-label="A&ntilde;o anterior">&#8249;</button>
+                  <strong data-progress-year-label>2026</strong>
+                  <button class="progress-month-nav" type="button" data-year-change="1" aria-label="A&ntilde;o siguiente">&#8250;</button>
+                </div>
+
+                <div class="progress-month-grid">
+                  <button class="progress-month-item" type="button" data-progress-month="0">ene</button>
+                  <button class="progress-month-item" type="button" data-progress-month="1">feb</button>
+                  <button class="progress-month-item" type="button" data-progress-month="2">mar</button>
+                  <button class="progress-month-item current active" type="button" data-progress-month="3">abr</button>
+
+                  <button class="progress-month-item" type="button" data-progress-month="4">may</button>
+                  <button class="progress-month-item" type="button" data-progress-month="5">jun</button>
+                  <button class="progress-month-item" type="button" data-progress-month="6">jul</button>
+                  <button class="progress-month-item" type="button" data-progress-month="7">ago</button>
+
+                  <button class="progress-month-item" type="button" data-progress-month="8">sept</button>
+                  <button class="progress-month-item" type="button" data-progress-month="9">oct</button>
+                  <button class="progress-month-item" type="button" data-progress-month="10">nov</button>
+                  <button class="progress-month-item" type="button" data-progress-month="11">dic</button>
+                </div>
+
+                <div class="progress-month-footer">
+                  <span>Borrar</span>
+                  <span>Este mes</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="progress-metrics-grid">
+          <article class="progress-metric-card blue">
+            <div class="progress-metric-label">Tiempo visto</div>
+            <div class="progress-metric-value">0h 1m</div>
+          </article>
+
+          <article class="progress-metric-card green">
+            <div class="progress-metric-label">Cursos activos</div>
+            <div class="progress-metric-value">0</div>
+          </article>
+
+          <article class="progress-metric-card purple">
+            <div class="progress-metric-label">Progreso medio</div>
+            <div class="progress-metric-value">55%</div>
+          </article>
+
+          <article class="progress-metric-card orange">
+            <div class="progress-metric-label">Tests aprobados</div>
+            <div class="progress-metric-value">50%</div>
+            <div class="progress-metric-sub">2 intentos</div>
+          </article>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div>&#169; 2026 IntegraSafe | Un servicio de SHEEQ Consulting</div>
+        <nav class="footer-links" aria-label="Enlaces legales">
+          <a href="#">Pol&iacute;tica de Privacidad</a>
+          <a href="#">T&eacute;rminos de Servicio</a>
+        </nav>
+      </footer>
+  </div>
+
+  <div id="certificates-screen" class="courses-screen certificates-screen screen-hidden courses-light-mode">
+      <header class="header">
+        <div class="header-left">
+          <img src="Logo Blanco IntegraSafe.png" class="logo" alt="IntegraSafe" />
+        </div>
+
+        <nav class="nav" aria-label="Navegaci&oacute;n principal">
+          <a class="nav-item" href="#" data-show-screen="mis-cursos-screen">Mis cursos</a>
+          <a class="nav-item" href="#" data-show-screen="progress-screen">Mi progreso</a>
+          <a class="nav-item active" href="#" data-show-screen="certificates-screen">Certificados</a>
+        </nav>
+
+        <div class="header-right">
+          <button class="theme-toggle" data-theme-toggle type="button" aria-label="Cambiar tema">
+            <span class="theme-icon" data-theme-icon aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="4" stroke="#ffffff" stroke-width="2" />
+                <path d="M12 2V5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M12 19V22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M2 12H5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M19 12H22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M4.93 4.93L7.05 7.05" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M16.95 16.95L19.07 19.07" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M16.95 7.05L19.07 4.93" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                <path d="M4.93 19.07L7.05 16.95" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </span>
+          </button>
+          <span class="user">Pedro</span>
+          <button class="logout-btn" type="button">Cerrar sesi&oacute;n</button>
+        </div>
+      </header>
+
+      <main class="certificates-main">
+        <section class="certificates-wrap">
+          <h1 class="certificates-title">Mis certificados</h1>
+
+          <div class="certificates-empty-state">
+            <div class="certificates-illustration">
+              <div class="certificates-doc-back"></div>
+
+              <div class="certificates-doc-front">
+                <div class="certificates-doc-line"></div>
+                <div class="certificates-doc-line"></div>
+                <div class="certificates-doc-line"></div>
+              </div>
+
+              <div class="certificates-seal">
+                <span class="certificates-ribbon-left"></span>
+                <span class="certificates-ribbon-right"></span>
+              </div>
+            </div>
+
+            <h2 class="certificates-empty-title">A&uacute;n no has obtenido certificados</h2>
+            <p class="certificates-empty-text">
+              Cuando completes cursos aprobados, tus certificados aparecer&aacute;n aqu&iacute;.
+            </p>
+
+            <a href="#" class="certificates-empty-btn" data-show-screen="mis-cursos-screen">Ver cursos disponibles</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div>&#169; 2026 IntegraSafe | Un servicio de SHEEQ Consulting</div>
+        <nav class="footer-links" aria-label="Enlaces legales">
+          <a href="#">Pol&iacute;tica de Privacidad</a>
+          <a href="#">T&eacute;rminos de Servicio</a>
+        </nav>
+      </footer>
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById("eye-toggle");
+      var pwdInput = document.getElementById("password");
+      var iconHide = document.getElementById("icon-hide");
+      var iconShow = document.getElementById("icon-show");
+
+      btn.addEventListener("click", function () {
+        var hidden = pwdInput.type === "password";
+        pwdInput.type = hidden ? "text" : "password";
+        iconHide.style.display = hidden ? "none" : "inline";
+        iconShow.style.display = hidden ? "inline" : "none";
+        btn.setAttribute("aria-label", hidden ? "Ocultar contrase\u00f1a" : "Mostrar contrase\u00f1a");
+      });
+    })();
+
+    (function () {
+      var inputs = document.querySelectorAll(".field__input");
+
+      inputs.forEach(function (input) {
+        input.addEventListener("focus", function () {
+          this.classList.add("field__input--active");
+        });
+
+        input.addEventListener("blur", function () {
+          if (this.id !== "email") {
+            this.classList.remove("field__input--active");
+          }
+        });
+      });
+    })();
+
+    (function () {
+      var enterBtn = document.getElementById("enter-btn");
+      var loginScreen = document.getElementById("login-screen");
+      var coursesScreen = document.getElementById("mis-cursos-screen");
+      var courseDetailScreen = document.getElementById("course-detail-screen");
+      var progressScreen = document.getElementById("progress-screen");
+      var certificatesScreen = document.getElementById("certificates-screen");
+      var body = document.body;
+      var courseScreens = [coursesScreen, courseDetailScreen, progressScreen, certificatesScreen];
+      var allScreens = [loginScreen, coursesScreen, courseDetailScreen, progressScreen, certificatesScreen];
+      var logoutButtons = document.querySelectorAll(".courses-screen .logout-btn");
+      var screenTriggers = document.querySelectorAll("[data-show-screen]");
+      var themeButtons = document.querySelectorAll("[data-theme-toggle]");
+      var themeIcons = document.querySelectorAll("[data-theme-icon]");
+      var moduleTriggers = courseDetailScreen.querySelectorAll("[data-module-target]");
+      var detailPanels = courseDetailScreen.querySelectorAll("[data-panel]");
+      var moduleGroups = courseDetailScreen.querySelectorAll("[data-module-group]");
+      var moduleEntries = courseDetailScreen.querySelectorAll("[data-module-entry]");
+      var progressFilterGroups = progressScreen.querySelectorAll("[data-progress-filter]");
+      var progressFilterToggles = progressScreen.querySelectorAll("[data-progress-toggle]");
+      var progressMonthDisplay = progressScreen.querySelector("[data-progress-month-display]");
+      var progressYearLabel = progressScreen.querySelector("[data-progress-year-label]");
+      var progressYearButtons = progressScreen.querySelectorAll("[data-year-change]");
+      var progressMonthItems = progressScreen.querySelectorAll("[data-progress-month]");
+      var progressMonthNames = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+      var selectedProgressMonth = 3;
+      var selectedProgressYear = 2026;
+      var sunIcon = `
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="4" stroke="#ffffff" stroke-width="2" />
+          <path d="M12 2V5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+          <path d="M12 19V22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+          <path d="M2 12H5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+          <path d="M19 12H22" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+          <path d="M4.93 4.93L7.05 7.05" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+          <path d="M16.95 16.95L19.07 19.07" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+          <path d="M16.95 7.05L19.07 4.93" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+          <path d="M4.93 19.07L7.05 16.95" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      `;
+      var moonIcon = `
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"
+            stroke="#ffffff"
+            stroke-width="2"
+            stroke-linejoin="round"
+          />
+        </svg>
+      `;
+
+      function isCourseDarkMode() {
+        return coursesScreen.classList.contains("courses-dark-mode");
+      }
+
+      function hasVisibleCourseScreen() {
+        return courseScreens.some(function (screen) {
+          return !screen.classList.contains("screen-hidden");
+        });
+      }
+
+      function syncBodyThemeState() {
+        body.classList.toggle("course-dark-active", isCourseDarkMode() && hasVisibleCourseScreen());
+      }
+
+      function updateThemeIcons() {
+        var iconMarkup = isCourseDarkMode() ? moonIcon : sunIcon;
+
+        themeIcons.forEach(function (themeIcon) {
+          themeIcon.innerHTML = iconMarkup;
+        });
+      }
+
+      function setCourseTheme(isDarkMode) {
+        courseScreens.forEach(function (screen) {
+          if (isDarkMode) {
+            screen.classList.add("courses-dark-mode");
+            screen.classList.remove("courses-light-mode");
+          } else {
+            screen.classList.add("courses-light-mode");
+            screen.classList.remove("courses-dark-mode");
+          }
+        });
+
+        updateThemeIcons();
+        syncBodyThemeState();
+      }
+
+      function setCourseModule(moduleId) {
+        detailPanels.forEach(function (panel) {
+          panel.classList.toggle("is-active", panel.getAttribute("data-panel") === moduleId);
+        });
+
+        moduleGroups.forEach(function (group) {
+          var isOpen = group.getAttribute("data-module-group") === moduleId;
+          group.classList.toggle("is-open", isOpen);
+          group.classList.toggle("is-active", isOpen);
+        });
+
+        moduleEntries.forEach(function (entry) {
+          entry.classList.toggle("active", entry.getAttribute("data-module-entry") === moduleId);
+        });
+      }
+
+      function closeProgressMenus() {
+        progressFilterGroups.forEach(function (group) {
+          group.classList.remove("is-open");
+
+          var toggle = group.querySelector("[data-progress-toggle]");
+          if (toggle) {
+            toggle.setAttribute("aria-expanded", "false");
+          }
+        });
+      }
+
+      function toggleProgressMenu(group) {
+        var isOpen = group.classList.contains("is-open");
+
+        closeProgressMenus();
+
+        if (!isOpen) {
+          group.classList.add("is-open");
+
+          var toggle = group.querySelector("[data-progress-toggle]");
+          if (toggle) {
+            toggle.setAttribute("aria-expanded", "true");
+          }
+        }
+      }
+
+      function updateProgressMonthDisplay() {
+        if (progressMonthDisplay) {
+          progressMonthDisplay.textContent = progressMonthNames[selectedProgressMonth] + " de " + selectedProgressYear;
+        }
+
+        if (progressYearLabel) {
+          progressYearLabel.textContent = selectedProgressYear;
+        }
+
+        progressMonthItems.forEach(function (monthItem) {
+          monthItem.classList.toggle("active", Number(monthItem.getAttribute("data-progress-month")) === selectedProgressMonth);
+        });
+      }
+
+      function showScreen(screenId) {
+        allScreens.forEach(function (screen) {
+          if (!screen) {
+            return;
+          }
+
+          screen.classList.toggle("screen-hidden", screen.id !== screenId);
+        });
+
+        if (screenId === "course-detail-screen") {
+          setCourseModule("module-1");
+        }
+
+        closeProgressMenus();
+        syncBodyThemeState();
+        window.scrollTo(0, 0);
+      }
+
+      if (enterBtn) {
+        enterBtn.addEventListener("click", function () {
+          showScreen("mis-cursos-screen");
+        });
+      }
+
+      logoutButtons.forEach(function (logoutBtn) {
+        logoutBtn.addEventListener("click", function () {
+          showScreen("login-screen");
+        });
+      });
+
+      screenTriggers.forEach(function (trigger) {
+        trigger.addEventListener("click", function (event) {
+          event.preventDefault();
+          showScreen(this.getAttribute("data-show-screen"));
+        });
+      });
+
+      themeButtons.forEach(function (toggleBtn) {
+        toggleBtn.addEventListener("click", function () {
+          setCourseTheme(!isCourseDarkMode());
+        });
+      });
+
+      moduleTriggers.forEach(function (trigger) {
+        trigger.addEventListener("click", function (event) {
+          event.preventDefault();
+          setCourseModule(this.getAttribute("data-module-target"));
+        });
+      });
+
+      progressFilterToggles.forEach(function (toggle) {
+        toggle.addEventListener("click", function (event) {
+          event.preventDefault();
+          toggleProgressMenu(this.closest("[data-progress-filter]"));
+        });
+      });
+
+      progressYearButtons.forEach(function (button) {
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          selectedProgressYear += Number(this.getAttribute("data-year-change"));
+          updateProgressMonthDisplay();
+        });
+      });
+
+      progressMonthItems.forEach(function (monthItem) {
+        monthItem.addEventListener("click", function (event) {
+          event.preventDefault();
+          selectedProgressMonth = Number(this.getAttribute("data-progress-month"));
+          updateProgressMonthDisplay();
+          closeProgressMenus();
+        });
+      });
+
+      document.addEventListener("click", function (event) {
+        if (!event.target.closest("#progress-screen [data-progress-filter]")) {
+          closeProgressMenus();
+        }
+      });
+
+      setCourseModule("module-1");
+      closeProgressMenus();
+      updateProgressMonthDisplay();
+      setCourseTheme(isCourseDarkMode());
+      syncBodyThemeState();
+    })();
+  </script>
+</body>
+</html>
